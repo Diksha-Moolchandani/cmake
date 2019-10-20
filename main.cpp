@@ -637,54 +637,53 @@ int main()
     X.init_search_space(map_dim, max_samples, obstacle_width, 0.0, 200, 0.1);
     // X.insert_obstacles(obstacles);
     X.update_obstacles_map(obstacles);
-    // int save_data_index = 0;
-    // rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
+    int save_data_index = 0;
+    rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
 
-    // std::vector<SearchSpace::Rect> current_desired_trajectory;
+    std::vector<SearchSpace::Rect> current_desired_trajectory;
    
-    // current_desired_trajectory.push_back(SearchSpace::Rect(0
-    //                            ,0, 0
-    //                            , obstacle_width
-    //                            , obstacle_width
-    //                            , obstacle_width));
-    // current_desired_trajectory.push_back(SearchSpace::Rect(25
-    //                            ,25, 25
-    //                            , 25+obstacle_width
-    //                            , 25+obstacle_width
-    //                            , 25+obstacle_width));
-    // current_desired_trajectory.push_back(SearchSpace::Rect(89
-    //                            ,99, 99
-    //                            , 89+obstacle_width
-    //                            , 99+obstacle_width
-    //                            , 99+obstacle_width));
+    current_desired_trajectory.push_back(SearchSpace::Rect(0
+                               ,0, 0
+                               , obstacle_width
+                               , obstacle_width
+                               , obstacle_width));
+    current_desired_trajectory.push_back(SearchSpace::Rect(25
+                               ,25, 25
+                               , 25+obstacle_width
+                               , 25+obstacle_width
+                               , 25+obstacle_width));
+    current_desired_trajectory.push_back(SearchSpace::Rect(89
+                               ,99, 99
+                               , 89+obstacle_width
+                               , 99+obstacle_width
+                               , 99+obstacle_width));
 
-    // Eigen::VectorXf center = (x_goal - x_init);
-    // Eigen::MatrixXf covmat = Eigen::MatrixXf::Zero(3,3);
-    // covmat(0,0) = 40;
-    // covmat(1,1) = 40;
-    // covmat(2,2) = 40;
+    Eigen::VectorXf center = (x_goal - x_init);
+    Eigen::MatrixXf covmat = Eigen::MatrixXf::Zero(3,3);
+    covmat(0,0) = 40;
+    covmat(1,1) = 40;
+    covmat(2,2) = 40;
     
-    // center = (x_goal + x_init)/2;
-    // // Eigen::Vector3f a(1,0,0);
-    // // Eigen::Vector3f b = x_goal-x_init;
-    // // Eigen::Matrix3f rotation_matrix;
-    // // common_utils.get_roration_matrix(a, b, rotation_matrix);
-    // // Eigen::Quaternion<double> q;
-    // // q = rotation_matrix.cast <double>();
+    center = (x_goal + x_init)/2;
+    Eigen::Vector3f a(1,0,0);
+    Eigen::Vector3f b = x_goal-x_init;
+    Eigen::Matrix3f rotation_matrix;
+    common_utils.get_roration_matrix(a, b, rotation_matrix);
+    Eigen::Quaternion<double> q;
+    q = rotation_matrix.cast <double>();
 
     // Eigen::Matrix3f rotation_matrix = Eigen::Matrix3f::Identity(3,3);
-    // int ndims = covmat.rows();       
-    // Eigen::MatrixXf random_points = Eigen::MatrixXf::Zero(max_samples, ndims);
-    // common_utils.generate_samples_from_ellipsoid(covmat, rotation_matrix, center
-    //         , random_points);
+    int ndims = covmat.rows();       
+    Eigen::MatrixXf random_points = Eigen::MatrixXf::Zero(max_samples, ndims);
+    common_utils.generate_samples_from_ellipsoid(covmat, rotation_matrix, center
+            , random_points);
 
-    // std::cout<< random_points << std::endl;
+    std::cout<< random_points << std::endl;
 
-    // X.use_whole_search_sapce = true;
-    // X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
+    X.use_whole_search_sapce = true;
+    X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
 
-    // auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, 
-    // std::ref(planner_status), save_data_index);
+    auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
     // Curve* bspline_curve = new BSpline();
 	  // bspline_curve->set_steps(100);
     // bspline_curve->add_way_point(Vector(path[0][0], path[0][1], path[0][2]));
