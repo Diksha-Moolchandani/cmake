@@ -44,7 +44,7 @@ namespace hagen {
             std::cout<<item.first[0] << "," << item.first[1] 
                                 << "," << item.first[2] << std::endl;
             std::cout<< item.second.transpose() << std::endl;
-            std::cout<< "=============" << std::endl;
+            // std::cout<< "=============" << std::endl;
         }
         std::cout<<"RRTBase::printEdge===="<< std::endl;
     }
@@ -122,7 +122,7 @@ namespace hagen {
                     }
                     float angle_diff = next_pose.head(3).dot(neighbour_obstacles[0].head(3))/(next_pose_norm*obs_norm);
                     angle_diff = std::abs(std::acos(angle_diff)*(180.0/3.141));
-                    std::cout << "Angle=====================----" << angle_diff << std::endl;
+                    // std::cout << "Angle=====================----" << angle_diff << std::endl;
                     if((dis>_obstacle_fail_safe_distance) && (angle_diff > min_angle_allows_obs)){
                         if(X.obstacle_free(next_pose)){
                             std::cout << "Valid generated sample:  "

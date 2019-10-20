@@ -609,10 +609,12 @@ int main()
     kamaz::hagen::RRTStar3D rrtstart3d;
     kamaz::hagen::CommonUtils common_utils;
     Eigen::VectorXf x_dimentions(3);
+
+    std::string path_ = "/home/user/ROS/cmake/data";
     x_dimentions << 100, 100, 100;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
-    auto obstacles = rrtstart3d.get_random_obstacles(70, x_dimentions);
+    auto obstacles = rrtstart3d.get_random_obstacles(30, x_dimentions);
     // std::cout<< "-----1" << std::endl;
     Eigen::VectorXf x_init(3);
     x_init << 0, 0, 0 ;
@@ -627,7 +629,7 @@ int main()
     Q.push_back(dim_in);
     // std::cout<< "-----1" << std::endl;
     int r = 1;
-    int max_samples = 1000;
+    int max_samples = 10000;
     int rewrite_count = 32;
     float proc = 0.1;
     float obstacle_width = 0.5;
@@ -684,7 +686,7 @@ int main()
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, 
     std::ref(planner_status), save_data_index);
     Curve* bspline_curve = new BSpline();
-	bspline_curve->set_steps(100);
+	  bspline_curve->set_steps(100);
     bspline_curve->add_way_point(Vector(path[0][0], path[0][1], path[0][2]));
     for(auto const way_point : path){
       std::cout<<"main: "<< way_point.transpose() << std::endl;
@@ -692,49 +694,50 @@ int main()
     }
     bspline_curve->add_way_point(Vector(path.back()[0], path.back()[1], path.back()[2]));
     std::cout << "nodes: " << bspline_curve->node_count() << std::endl;
-	std::cout << "total length: " << bspline_curve->total_length() << std::endl;
+	  std::cout << "total length: " << bspline_curve->total_length() << std::endl;
     std::vector<Eigen::VectorXf> new_path_bspline;
     if(path.size()>0){
       new_path_bspline.push_back(path[0]);
-    }
-    for (int i = 0; i < bspline_curve->node_count(); ++i) {
+      for (int i = 0; i < bspline_curve->node_count(); ++i) {
 	    Eigen::VectorXf pose(3);
         auto node = bspline_curve->node(i);
         pose<< node.x, node.y, node.z; 
         new_path_bspline.push_back(pose);
-	}
-    std::string path_ingg = "/dataset/rrt_old/" + std::to_string(save_data_index) + "_rrt_path_modified.npy";
-    rrtstart3d.save_path(new_path_bspline, path_ingg);
+	    }
+    }
+    
+    // std::string path_ingg = path_ + std::to_string(save_data_index) + "_rrt_path_modified.npy";
+    // rrtstart3d.save_path(new_path_bspline, path_ingg);
 
     
-    save_data_index++;
-    rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
-    X.use_whole_search_sapce = false;
-    X.insert_trajectory(current_desired_trajectory);
-    path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_goal, 2.0, 3.0, common_utils, 
-    std::ref(planner_status), save_data_index);
-    bspline_curve = new BSpline();
-	bspline_curve->set_steps(100);
-    bspline_curve->add_way_point(Vector(path[0][0], path[0][1], path[0][2]));
-    for(auto const way_point : path){
-      std::cout<<"main: "<< way_point.transpose() << std::endl;
-      bspline_curve->add_way_point(Vector(way_point[0], way_point[1], way_point[2]));
-    }
-    bspline_curve->add_way_point(Vector(path.back()[0], path.back()[1], path.back()[2]));
-    std::cout << "nodes: " << bspline_curve->node_count() << std::endl;
-	std::cout << "total length: " << bspline_curve->total_length() << std::endl;
-    new_path_bspline.clear();
-    if(path.size()>0){
-      new_path_bspline.push_back(path[0]);
-    }
-    for (int i = 0; i < bspline_curve->node_count(); ++i) {
-	    Eigen::VectorXf pose(3);
-        auto node = bspline_curve->node(i);
-        pose<< node.x, node.y, node.z; 
-        new_path_bspline.push_back(pose);
-	}
-    path_ingg = "/dataset/rrt_old/" + std::to_string(save_data_index) + "_rrt_path_modified.npy";
-    rrtstart3d.save_path(new_path_bspline, path_ingg);
+    // save_data_index++;
+    // rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
+    // X.use_whole_search_sapce = false;
+    // X.insert_trajectory(current_desired_trajectory);
+    // auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_goal, 2.0, 3.0, common_utils, 
+    // std::ref(planner_status), save_data_index);
+    // bspline_curve = new BSpline();
+	  // bspline_curve->set_steps(100);
+    // bspline_curve->add_way_point(Vector(path[0][0], path[0][1], path[0][2]));
+    // for(auto const way_point : path){
+    //   std::cout<<"main: "<< way_point.transpose() << std::endl;
+    //   bspline_curve->add_way_point(Vector(way_point[0], way_point[1], way_point[2]));
+    // }
+    // bspline_curve->add_way_point(Vector(path.back()[0], path.back()[1], path.back()[2]));
+    // std::cout << "nodes: " << bspline_curve->node_count() << std::endl;
+	  // std::cout << "total length: " << bspline_curve->total_length() << std::endl;
+    // new_path_bspline.clear();
+    // if(path.size()>0){
+    //   new_path_bspline.push_back(path[0]);
+    // }
+    // for (int i = 0; i < bspline_curve->node_count(); ++i) {
+	  //   Eigen::VectorXf pose(3);
+    //     auto node = bspline_curve->node(i);
+    //     pose<< node.x, node.y, node.z; 
+    //     new_path_bspline.push_back(pose);
+	  // }
+    // path_ingg = "/dataset/rrt_old/" + std::to_string(save_data_index) + "_rrt_path_modified.npy";
+    // rrtstart3d.save_path(new_path_bspline, path_ingg);
 
     return 0;
 }

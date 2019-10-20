@@ -65,7 +65,7 @@ namespace hagen {
 
         int k = closest(time).second;
 
-        std::cout<< "======||" << k << std::endl;
+        // std::cout<< "======||" << k << std::endl;
 
         Eigen::MatrixXd pose_coeff(1, 8);
         pose_coeff << std::pow(time, 7.0)

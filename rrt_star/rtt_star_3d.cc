@@ -38,10 +38,10 @@ namespace hagen {
 
         auto path = rrtstar.rrt_star();
         stotage_location = "/dataset/rrt_old/"+ std::to_string(index) + "_";
-        save_edges(rrtstar.trees, stotage_location + "edges.npy");
-        save_obstacle(search_space.random_objects, stotage_location + "obstacles.npy");
-        save_poses(start_pose, goal_pose, stotage_location + "start_and_end_pose.npy");
-        save_path(path, stotage_location + "rrt_star_path.npy");
+        // save_edges(rrtstar.trees, stotage_location + "edges.npy");
+        // save_obstacle(search_space.random_objects, stotage_location + "obstacles.npy");
+        // save_poses(start_pose, goal_pose, stotage_location + "start_and_end_pose.npy");
+        // save_path(path, stotage_location + "rrt_star_path.npy");
         return path;
     }
 
