@@ -601,7 +601,7 @@ using kamaz::hagen::SingularSpectrumAnalysis;
 
 
 
-
+using namespace std;
 
 
 int main()
@@ -609,12 +609,12 @@ int main()
     kamaz::hagen::RRTStar3D rrtstart3d;
     kamaz::hagen::CommonUtils common_utils;
     Eigen::VectorXf x_dimentions(3);
-
+    std::vector<SearchSpace::Rect> obstacles;
     std::string path_ = "/home/user/ROS/cmake/data";
     x_dimentions << 100, 100, 100;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
-    auto obstacles = rrtstart3d.get_random_obstacles(1, x_dimentions);
+  //  auto obstacles = rrtstart3d.get_random_obstacles(1, x_dimentions);
     // std::cout<< "-----1" << std::endl;
     Eigen::VectorXf x_init(3);
     x_init << 0, 0, 0 ;
@@ -636,6 +636,27 @@ int main()
     kamaz::hagen::SearchSpace X;
     X.init_search_space(map_dim, max_samples, obstacle_width, 0.0, 200, 0.1);
     // X.insert_obstacles(obstacles);
+    cnpy::NpyArray arr = cnpy::npy_load("/home/ubuntu/oct_map.npy");
+    float* loaded_data = arr.data<float>();
+   std::cout<< arr.shape[0]*arr.shape[1]*arr.shape[2] << std::endl;
+
+ 
+    for(int i = 0; i < arr.shape[0]*arr.shape[1]*arr.shape[2];i=i+6)
+    {
+	    
+
+	kamaz::hagen::SearchSpace::Rect tmp_rect;
+
+	tmp_rect.min[0] = loaded_data[i];
+	tmp_rect.min[1] = loaded_data[i+1];
+	tmp_rect.min[2] = loaded_data[i+2];
+	tmp_rect.max[0] = loaded_data[i+3];
+	tmp_rect.max[1] = loaded_data[i+4];
+	tmp_rect.max[2] = loaded_data[i+5];
+
+	obstacles.push_back(tmp_rect);
+
+    }
     X.update_obstacles_map(obstacles);
     int save_data_index = 0;
     rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
