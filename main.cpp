@@ -634,9 +634,11 @@ int main()
     float proc = 0.1;
     float obstacle_width = 0.5;
     kamaz::hagen::SearchSpace X;
+    rrtstart3d.save_obstacle(obstacles, "/home/ubuntu/oct_map.npy");
     X.init_search_space(map_dim, max_samples, obstacle_width, 0.0, 200, 0.1);
     // X.insert_obstacles(obstacles);
     X.update_obstacles_map(obstacles);
+
     // int save_data_index = 0;
     // rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
 

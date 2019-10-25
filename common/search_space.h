@@ -90,6 +90,7 @@ namespace hagen {
                 std::vector<float> linspace(float start_in, float end_in, float step_size);
                 bool collision_free(Eigen::VectorXf start, Eigen::VectorXf end, int r);
                 void insert_obstacle(Eigen::VectorXf index);
+
                 std::vector<Eigen::VectorXf> nearest_obstacles(Eigen::VectorXf x
                                     , int max_neighbours);
                 std::vector<Eigen::VectorXf> 

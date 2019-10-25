@@ -74,7 +74,10 @@ namespace hagen {
         }
         random_objects = way_points;
         obstacle_counter = way_points.size();
+
     }
+
+   
 
     std::vector<Eigen::VectorXf> SearchSpace::nearest_obstacles_to_current_pose(Eigen::VectorXf x
                 , int max_neighbours){
