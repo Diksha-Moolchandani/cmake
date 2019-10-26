@@ -553,7 +553,7 @@ using kamaz::hagen::PointCloudPtr;
 
 int main(){
 
-  std::string filename ="/tmp/fff_946685000909756.pcd"; 
+  std::string filename ="/home/ubuntu/log946685022902685.pcd"; 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
   if(pcl::io::loadPCDFile<pcl::PointXYZ> (filename, *cloud1) == -1) // load point cloud file
   {
@@ -561,7 +561,7 @@ int main(){
       return 0;
   }
   std::cout<<"Loaded"<<cloud1->width * cloud1->height
-            <<"data points from /tmp/fff_946685000909756.pcd with the following fields: "
+            <<"data points from /home/ubuntu/log946685022902685.pcd with the following fields: "
             <<std::endl;
 
   pcl::PointCloud<pcl::PointXYZ> pc = *cloud1;
@@ -598,9 +598,9 @@ int main(){
     depth_ground_remover->execute<kamaz::hagen::Cloud::Ptr>(cloud_ptr_current_ptr, 0);
 
 
-  //   pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_1.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
-  //   pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_2.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
-  //   pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_3.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
+  //   pcl::io::savePCDFileASCII ("/home/ubuntu/diksha_cloud_1.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
+  //   pcl::io::savePCDFileASCII ("/home/ubuntu/diksha_cloud_2.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
+  //   pcl::io::savePCDFileASCII ("/home/ubuntu/diksha_cloud_3.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
 
   //   pcl::PointCloud<pcl::PointXYZ>::Ptr diksha_cloud_1 (new pcl::PointCloud<pcl::PointXYZ>);
   //   if (pcl::io::loadPCDFile<pcl::PointXYZ> ("/tmp/diksha_cloud_1.pcd", *diksha_cloud_1) == -1) //* load the file
