@@ -638,7 +638,7 @@ int main()
     // X.insert_obstacles(obstacles);
     cnpy::NpyArray arr = cnpy::npy_load("/home/ubuntu/oct_map.npy");
     float* loaded_data = arr.data<float>();
-   std::cout<< arr.shape[0]*arr.shape[1]*arr.shape[2] << std::endl;
+ //  std::cout<< arr.shape[0]*arr.shape[1]*arr.shape[2] << std::endl;
 
  
     for(int i = 0; i < arr.shape[0]*arr.shape[1]*arr.shape[2];i=i+6)
