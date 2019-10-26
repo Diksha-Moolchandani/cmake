@@ -601,16 +601,16 @@ using kamaz::hagen::SingularSpectrumAnalysis;
 
 
 
-
+using namespace std;
 
 
 int main()
 {
-    kamaz::hagen::RRTStar3D rrtstart3d;
+ /*   kamaz::hagen::RRTStar3D rrtstart3d;
     kamaz::hagen::CommonUtils common_utils;
     Eigen::VectorXf x_dimentions(3);
-
-    std::string path_ = "/home/user/ROS/cmake/data";
+    
+ //   std::string path_ = "/home/user/ROS/cmake/data";
     x_dimentions << 100, 100, 100;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
@@ -683,7 +683,23 @@ int main()
     X.use_whole_search_sapce = true;
     X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
 
-    auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
+    auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);*/
+
+    vector<Eigen::VectorXf> path;
+    cnpy::NpyArray arr = cnpy::npy_load("/home/ubuntu/rrt_path.npy");
+    float* loaded_data = arr.data<float>();
+
+
+    for(int i = 0; i < arr.shape[0]*arr.shape[1];i=i+3)
+    {
+
+	Eigen::VectorXf tmp_path(3); 
+	tmp_path << loaded_data[i], loaded_data[i+1], loaded_data[i+2];
+
+	path.push_back(tmp_path);
+
+    }
+
 
 
     Curve* bspline_curve = new BSpline();
