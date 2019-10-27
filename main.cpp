@@ -603,23 +603,23 @@ int main(){
     // pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_3.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr diksha_cloud_1 (new pcl::PointCloud<pcl::PointXYZ>);
-    if (pcl::io::loadPCDFile<pcl::PointXYZ> ("/tmp/diksha_cloud_1.pcd", *diksha_cloud_1) == -1) //* load the file
+    if (pcl::io::loadPCDFile<pcl::PointXYZ> ("/home/ubuntu/diksha_cloud_1.pcd", *diksha_cloud_1) == -1) //* load the file
     {
-      PCL_ERROR ("Couldn't read file /tmp/diksha_cloud_1.pcd \n");
+      PCL_ERROR ("Couldn't read file /home/ubuntu/diksha_cloud_1.pcd \n");
       return (-1);
     }
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr diksha_cloud_2 (new pcl::PointCloud<pcl::PointXYZ>);
-    if (pcl::io::loadPCDFile<pcl::PointXYZ> ("/tmp/diksha_cloud_2.pcd", *diksha_cloud_2) == -1) //* load the file
+    if (pcl::io::loadPCDFile<pcl::PointXYZ> ("/home/ubuntu/diksha_cloud_2.pcd", *diksha_cloud_2) == -1) //* load the file
     {
-      PCL_ERROR ("Couldn't read file /tmp/diksha_cloud_2.pcd \n");
+      PCL_ERROR ("Couldn't read file /home/ubuntu/diksha_cloud_2.pcd \n");
       return (-1);
     }
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr diksha_cloud_3 (new pcl::PointCloud<pcl::PointXYZ>);
-    if (pcl::io::loadPCDFile<pcl::PointXYZ> ("/tmp/diksha_cloud_3.pcd", *diksha_cloud_3) == -1) //* load the file
+    if (pcl::io::loadPCDFile<pcl::PointXYZ> ("/home/ubuntu/diksha_cloud_3.pcd", *diksha_cloud_3) == -1) //* load the file
     {
-      PCL_ERROR ("Couldn't read file /tmp/diksha_cloud_3.pcd \n");
+      PCL_ERROR ("Couldn't read file /home/ubuntu/diksha_cloud_3.pcd \n");
       return (-1);
     }
 
