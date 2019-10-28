@@ -705,7 +705,7 @@ int main()
     X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
 
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
-    rrtstart3d.save_path(path, "/home/ubuntu/rrt_path.npy");
+//    rrtstart3d.save_path(path, "/home/ubuntu/rrt_path.npy");
 
 
     // Curve* bspline_curve = new BSpline();
