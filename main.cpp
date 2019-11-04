@@ -588,11 +588,11 @@ int main(){
       return 0;
     }
     BOOST_LOG_TRIVIAL(info) << FCYN("Number of points in the cloud") << cloud_ptr_current_ptr->point_cloud_ptr->points.size();
-    depth_ground_remover->options.bin_size = 7;
+    depth_ground_remover->options.bin_size = 7;  //
     depth_ground_remover->options.ground_remove_angle = 10;
     depth_ground_remover->options.step = 5;
     depth_ground_remover->options.depth_threshold = 1.0f;
-    depth_ground_remover->options.window_size = 7;
+    depth_ground_remover->options.window_size = 7;  //NO OF PRINCIPAL COMPONENTS
     depth_ground_remover->options.kernel_size = 7;
     // depth_ground_remover->options.depth_expiration_time = 1.0;
     depth_ground_remover->execute<kamaz::hagen::Cloud::Ptr>(cloud_ptr_current_ptr, 0);
