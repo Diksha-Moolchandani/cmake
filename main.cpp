@@ -23,6 +23,12 @@
 #include <random>
 #include "trajectory_planning/trajectory_planning.h"
 
+
+
+#include "spline/polynomial.h"
+#include <Eigen/Core>
+#include <unsupported/Eigen/Splines>
+
 using kamaz::hagen::SearchSpace;
 // using kamaz::hagen::AStarImproved;
 // using kamaz::hagen::APFCalculator;
@@ -591,11 +597,7 @@ using kamaz::hagen::SingularSpectrumAnalysis;
 
 
 
-
-
-
-
-
+typedef Eigen::Spline<float, 3> Spline3d;
 
 
 
@@ -729,48 +731,52 @@ int main()
   // }
   // cnpy::npy_save("file_name.npy", &edges[0],{(unsigned int)1, (unsigned int)count, (unsigned int)3},"w");
 
-  // void TrajectorySmoother::get_smoothed_trajectory(std::vector<Eigen::VectorXf> waypoints
-  //                                           , int _number_of_steps
-  //                                           , std::vector<Eigen::VectorXf>& smoothed_trajectory){
-                
-  //               if(waypoints.size()<2){
-  //                   smoothed_trajectory = waypoints;
-  //                   return;
-  //               }
-  //               Eigen::MatrixXf points(3, waypoints.size());
-  //               // points.col(0) << waypoints[0][0], waypoints[0][1], waypoints[0][2];
+ 
 
-  //               int row_index = 0;
-  //               for(auto const way_point : waypoints){
-  //                   points.col(row_index) << way_point[0], way_point[1], way_point[2];
-  //                   std::cout<< "inpuse :-->" << way_point << std::endl;
-  //                   row_index++;
-  //               }
-  //               // points.col(row_index) << waypoints.back()[0], waypoints.back()[1], waypoints.back()[2];
-
-  //               Spline3d spline = Eigen::SplineFitting<Spline3d>::Interpolate(points, 2);
-
-  //               // _curve->add_way_point(Vector(waypoints.back()[0], waypoints.back()[1], waypoints.back()[2]));
-  //               float time_ = 0;
-  //               for(int i=0; i<_number_of_steps; i++){
-  //                   time_ += 1.0/(_number_of_steps*1.0);
-  //                   Eigen::VectorXf values = spline(time_);
-  //                   std::cout<< values << std::endl;
-  //                   smoothed_trajectory.push_back(values);
-  //               }
-  //               std::cout << "Nodes: " << _number_of_steps << std::endl;
-	//             std::cout << "Total length: " << smoothed_trajectory.size() << std::endl;
-  //           }
+/*
 
 
+  void TrajectorySmoother::get_smoothed_trajectory(std::vector<Eigen::VectorXf> waypoints
+                                             , int _number_of_steps
+                                             , std::vector<Eigen::VectorXf>& smoothed_trajectory){
+               
+                 if(waypoints.size()<2){
+                     smoothed_trajectory = waypoints;
+                     return;
+                 }
+                 Eigen::MatrixXf points(3, waypoints.size());
+                 // points.col(0) << waypoints[0][0], waypoints[0][1], waypoints[0][2];
+
+                 int row_index = 0;
+                 for(auto const way_point : waypoints){
+                     points.col(row_index) << way_point[0], way_point[1], way_point[2];
+                     row_index++;
+                 }
+                 // points.col(row_index) << waypoints.back()[0], waypoints.back()[1], waypoints.back()[2];
+
+                 Spline3d spline = Eigen::SplineFitting<Spline3d>::Interpolate(points, 2);
+               // _curve->add_way_point(Vector(waypoints.back()[0], waypoints.back()[1], waypoints.back()[2]));
+                 float time_ = 0;
+                 for(int i=0; i<_number_of_steps; i++){
+                     time_ += 1.0/(_number_of_steps*1.0);
+                     Eigen::VectorXf values = spline(time_);
+                     std::cout<< values << std::endl;
+                     smoothed_trajectory.push_back(values);
+                 }
+                 std::cout << "Nodes: " << _number_of_steps << std::endl;
+	             std::cout << "Total length: " << smoothed_trajectory.size() << std::endl;
+             }
+*/
 
 
 
+ std::ofstream outfile;
+    outfile.open("/home/ubuntu/diksha_data/parameter_analysis/smooth_time.txt", std::ios_base::app);
 
     vector<Eigen::VectorXf> path;
     cnpy::NpyArray arr = cnpy::npy_load("/home/ubuntu/rrt_path.npy");
     float* loaded_data = arr.data<float>();
-
+    std::vector<Eigen::VectorXf> smoothed_trajectory;
 
     for(int i = 0; i < arr.shape[0]*arr.shape[1];i=i+3)
     {
@@ -781,12 +787,41 @@ int main()
 	path.push_back(tmp_path);
 
     }
-
-
-    kamaz::hagen::TrajectorySmoother smooth_traj;
-    smooth_traj.set_smoother("bspline");
+    int _number_of_steps = 100;
+    const clock_t begin_time = clock();
+ /*   kamaz::hagen::TrajectorySmoother smooth_traj;
+    smooth_traj.set_smoother("catmull");
     smooth_traj.set_waypoints(path,100);
-    smooth_traj.get_smoothed_trajectory();
+    smooth_traj.get_smoothed_trajectory();*/
+   if(path.size()<2){
+                     smoothed_trajectory = path;
+		     return 0;
+                 }
+                 Eigen::MatrixXf points(3, path.size());
+                 // points.col(0) << waypoints[0][0], waypoints[0][1], waypoints[0][2];
+
+                 int row_index = 0;
+                 for(auto const way_point : path){
+                     points.col(row_index) << way_point[0], way_point[1], way_point[2];
+                     row_index++;
+                 }
+                 // points.col(row_index) << waypoints.back()[0], waypoints.back()[1], waypoints.back()[2];
+
+                 Spline3d spline = Eigen::SplineFitting<Spline3d>::Interpolate(points, 2);
+               // _curve->add_way_point(Vector(waypoints.back()[0], waypoints.back()[1], waypoints.back()[2]));
+                 float time_ = 0;
+                 for(int i=0; i<_number_of_steps; i++){
+                     time_ += 1.0/(_number_of_steps*1.0);
+                     Eigen::VectorXf values = spline(time_);
+        //             std::cout<< values << std::endl;
+                     smoothed_trajectory.push_back(values);
+                 }
+                 std::cout << "Nodes: " << _number_of_steps << std::endl;
+	             std::cout << "Total length: " << smoothed_trajectory.size() << std::endl;
+    
+
+    float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+    outfile << time_diff<<  "\n";
 
 
 
