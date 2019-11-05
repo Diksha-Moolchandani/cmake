@@ -610,6 +610,9 @@ int main()
     kamaz::hagen::CommonUtils common_utils;
     Eigen::VectorXf x_dimentions(3);
 
+  std::ofstream outfile;
+        outfile.open("/home/ubuntu/diksha_data/parameter_analysis/octmap_time.txt", std::ios_base::app);
+
     std::string path_ = "/home/user/ROS/cmake/data";
     x_dimentions << 100, 100, 100;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
@@ -637,7 +640,12 @@ int main()
     rrtstart3d.save_obstacle(obstacles, "/home/ubuntu/oct_map.npy");
     X.init_search_space(map_dim, max_samples, obstacle_width, 0.0, 200, 0.1);
     // X.insert_obstacles(obstacles);
+    const clock_t begin_time = clock();
+
     X.update_obstacles_map(obstacles);
+    float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+    outfile <<  time_diff  << "\n";
+
     
     // int save_data_index = 0;
     // rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
