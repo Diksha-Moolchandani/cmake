@@ -245,7 +245,7 @@ namespace hagen {
             connect_to_the_goal(0);
             return reconstruct_path(0, x_init, x_goal);
         }
-         BOOST_LOG_TRIVIAL(info) << FCYN("Could not connect to goal");
+ //        BOOST_LOG_TRIVIAL(info) << FCYN("Could not connect to goal");
         return path;
     }
 
@@ -311,7 +311,7 @@ namespace hagen {
 
     bool RRTBase::check_solution(std::vector<Eigen::VectorXf>& path){
         if ( prc > std::rand() %1 ){
-            BOOST_LOG_TRIVIAL(info) << FCYN("Checking if can connect to the goal at ")<< sample_taken << FCYN(" samples");
+ //           BOOST_LOG_TRIVIAL(info) << FCYN("Checking if can connect to the goal at ")<< sample_taken << FCYN(" samples");
             path = get_path();
             if(path.size()>0){
                 return true;

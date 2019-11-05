@@ -611,7 +611,7 @@ int main()
     Eigen::VectorXf x_dimentions(3);
     std::vector<SearchSpace::Rect> obstacles;
     std::string path_ = "/home/user/ROS/cmake/data";
-    x_dimentions << 100, 100, 100;
+    x_dimentions << 200, 200, 200;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
   //  auto obstacles = rrtstart3d.get_random_obstacles(1, x_dimentions);
@@ -699,7 +699,7 @@ int main()
     common_utils.generate_samples_from_ellipsoid(covmat, rotation_matrix, center
             , random_points);
 
-    std::cout<< random_points << std::endl;
+ //   std::cout<< random_points << std::endl;
 
     X.use_whole_search_sapce = true;
     X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
