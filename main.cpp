@@ -611,7 +611,7 @@ int main()
     Eigen::VectorXf x_dimentions(3);
     std::vector<SearchSpace::Rect> obstacles;
     std::string path_ = "/home/user/ROS/cmake/data";
-    x_dimentions << 200, 200, 200;
+    x_dimentions << 100, 100, 100;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
   //  auto obstacles = rrtstart3d.get_random_obstacles(1, x_dimentions);
@@ -705,6 +705,22 @@ int main()
     X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
 
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
+   
+    if(path.size()==0){
+	    X.use_whole_search_sapce = false;
+	    X.insert_trajectory(current_desired_trajectory);
+	    path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_goal, 2.0, 3.0, common_utils, 
+	    std::ref(planner_status), save_data_index);
+	    float cost = rrtstart3d.get_distance(path);
+    	    cout << "whole search space false: " << path.size() << "," << cost  << endl;
+    }
+    else{
+	 float cost = rrtstart3d.get_distance(path);
+         cout << "whole search space true: " << path.size() << "," << cost  << endl;
+    }
+   
+
+
 //    rrtstart3d.save_path(path, "/home/ubuntu/rrt_path.npy");
 
 

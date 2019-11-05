@@ -125,6 +125,21 @@ namespace hagen {
         cnpy::npy_save(file_name, &edges[0],{(unsigned int)1, (unsigned int)count, (unsigned int)6},"w");
     }
 
+     float  RRTStar3D::get_distance(std::vector<Eigen::VectorXf> trajectory_){
+			float distance = 0.0f;
+        if(trajectory_.size() < 1){
+            return distance;
+        }
+        Eigen::VectorXf previous = trajectory_[0].head(3);
+        for (int i = 1; (unsigned)i < trajectory_.size(); i++){
+            float dis = std::abs((previous.head(3) - trajectory_[i].head(3)).norm());
+            previous = trajectory_[i].head(3);
+            distance += dis;
+        }
+        return distance;
+    }
+
+
     void RRTStar3D::save_obstacle(std::vector<SearchSpace::Rect> obstacles, std::string file_name){
         std::vector<float> obstacles_pose; 
         int count = 0;
