@@ -711,7 +711,7 @@ int main()
       bspline_curve->add_way_point(Vector(way_point[0], way_point[1], way_point[2]));
     }
     bspline_curve->add_way_point(Vector(path.back()[0], path.back()[1], path.back()[2]));
-    std::cout << "nodes: " << bspline_curve->node_count() << std::endl;
+//    std::cout << "nodes: " << bspline_curve->node_count() << std::endl;
 	  std::cout << "total length: " << bspline_curve->total_length() << std::endl;
     std::vector<Eigen::VectorXf> new_path_bspline;
     if(path.size()>0){
