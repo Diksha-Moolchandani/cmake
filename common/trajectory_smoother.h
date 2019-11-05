@@ -18,7 +18,7 @@
 #include <vector>
 #include "../spline/BSpline.h"
 #include "../spline/CatmullRom.h"
-
+#include "../spline/Bezier.h"
 #include <random>
 
 namespace kamaz {

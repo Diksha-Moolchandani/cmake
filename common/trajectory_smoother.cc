@@ -8,6 +8,9 @@ namespace hagen {
                 }else if(name == "catmull"){
                    _curve = new CatmullRom();
                 }
+		else if(name == "bezier"){
+                   _curve = new Bezier();
+                }
             }
 
             void TrajectorySmoother::clear_smoother(){

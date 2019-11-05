@@ -684,6 +684,88 @@ int main()
     X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
 
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);*/
+//----------------------------------------------------------------------------------------------------------------------
+
+ // std::vector<Eigen::VectorXf> waypoints;
+  // Eigen::Vector3f po1(2,3,4);
+  // Eigen::Vector3f po2(2,5,4);
+  // Eigen::Vector3f po3(2,8,9);
+  // Eigen::Vector3f po4(2,8,23);
+  // waypoints.push_back(po1);
+  // waypoints.push_back(po2);
+  // waypoints.push_back(po3);
+  // waypoints.push_back(po4);
+      
+  // // The degree of the interpolating spline needs to be one less than the number of points
+  // // that are fitted to the spline.
+  // Eigen::MatrixXf points(3, waypoints.size());
+  // int row_index = 0;
+  // for(auto const way_point : waypoints){
+  //     points.col(row_index) << way_point[0], way_point[1], way_point[2];
+  //     row_index++;
+  // }
+  // Spline3d spline = Eigen::SplineFitting<Spline3d>::Interpolate(points, 2);
+  // float time_ = 0;
+  // for(int i=0; i<20; i++){
+  //     time_ += 1.0/(20*1.0);
+  //     Eigen::VectorXf values = spline(time_);
+  //     std::cout<< values << std::endl;
+  // }
+  // std::cout << "Nodes: " << 20 << std::endl;
+// std::cout << "Total length: " << smoothed_trajectory.size() << std::endl;
+
+  // time_ = 0;
+  // int count = 0;
+  // std::vector<float> edges; 
+  // for(int g=0; g< 20; g++){
+  //   time_ += 1.0/(20*1.0);
+  //   Eigen::Vector3f values = spline(time_);
+  //   std::cout<< values << std::endl;
+  //   edges.push_back(values[0]);
+  //   edges.push_back(values[1]);
+  //   edges.push_back(values[2]);
+  //   // edges.push_back(values[3]);
+  //   count += 1;
+  // }
+  // cnpy::npy_save("file_name.npy", &edges[0],{(unsigned int)1, (unsigned int)count, (unsigned int)3},"w");
+
+  // void TrajectorySmoother::get_smoothed_trajectory(std::vector<Eigen::VectorXf> waypoints
+  //                                           , int _number_of_steps
+  //                                           , std::vector<Eigen::VectorXf>& smoothed_trajectory){
+                
+  //               if(waypoints.size()<2){
+  //                   smoothed_trajectory = waypoints;
+  //                   return;
+  //               }
+  //               Eigen::MatrixXf points(3, waypoints.size());
+  //               // points.col(0) << waypoints[0][0], waypoints[0][1], waypoints[0][2];
+
+  //               int row_index = 0;
+  //               for(auto const way_point : waypoints){
+  //                   points.col(row_index) << way_point[0], way_point[1], way_point[2];
+  //                   std::cout<< "inpuse :-->" << way_point << std::endl;
+  //                   row_index++;
+  //               }
+  //               // points.col(row_index) << waypoints.back()[0], waypoints.back()[1], waypoints.back()[2];
+
+  //               Spline3d spline = Eigen::SplineFitting<Spline3d>::Interpolate(points, 2);
+
+  //               // _curve->add_way_point(Vector(waypoints.back()[0], waypoints.back()[1], waypoints.back()[2]));
+  //               float time_ = 0;
+  //               for(int i=0; i<_number_of_steps; i++){
+  //                   time_ += 1.0/(_number_of_steps*1.0);
+  //                   Eigen::VectorXf values = spline(time_);
+  //                   std::cout<< values << std::endl;
+  //                   smoothed_trajectory.push_back(values);
+  //               }
+  //               std::cout << "Nodes: " << _number_of_steps << std::endl;
+	//             std::cout << "Total length: " << smoothed_trajectory.size() << std::endl;
+  //           }
+
+
+
+
+
 
     vector<Eigen::VectorXf> path;
     cnpy::NpyArray arr = cnpy::npy_load("/home/ubuntu/rrt_path.npy");
@@ -703,33 +785,37 @@ int main()
 
     kamaz::hagen::TrajectorySmoother smooth_traj;
     smooth_traj.set_smoother("bspline");
-    Curve* bspline_curve = new BSpline();
-	  bspline_curve->set_steps(100);
-    bspline_curve->add_way_point(Vector(path[0][0], path[0][1], path[0][2]));
-    for(auto const way_point : path){
-      std::cout<<"main: "<< way_point.transpose() << std::endl;
-      bspline_curve->add_way_point(Vector(way_point[0], way_point[1], way_point[2]));
-    }
-    bspline_curve->add_way_point(Vector(path.back()[0], path.back()[1], path.back()[2]));
-//    std::cout << "nodes: " << bspline_curve->node_count() << std::endl;
-	  std::cout << "total length: " << bspline_curve->total_length() << std::endl;
-    std::vector<Eigen::VectorXf> new_path_bspline;
-    if(path.size()>0){
-      new_path_bspline.push_back(path[0]);
-      for (int i = 0; i < bspline_curve->node_count(); ++i) {
-	    Eigen::VectorXf pose(3);
-        auto node = bspline_curve->node(i);
-        pose<< node.x, node.y, node.z; 
-        new_path_bspline.push_back(pose);
-	    }
-    }
-        
-   
-    smooth_traj.set_waypoints(new_path_bspline,100);
+    smooth_traj.set_waypoints(path,100);
     smooth_traj.get_smoothed_trajectory();
 
+
+
+   // std::vector<Eigen::VectorXf> new_path_bspline;
+   // Curve* bspline_curve = new BSpline();
+//	  bspline_curve->set_steps(100);
+   // bspline_curve->add_way_point(Vector(path[0][0], path[0][1], path[0][2]));
+   //for(auto const way_point : path){
+  //    std::cout<<"main: "<< way_point.transpose() << std::endl;
+  //    bspline_curve->add_way_point(Vector(way_point[0], way_point[1], way_point[2]));
+ //   }
+  //  bspline_curve->add_way_point(Vector(path.back()[0], path.back()[1], path.back()[2]));
+ //   std::cout << "nodes: " << bspline_curve->node_count() << std::endl;
+//	  std::cout << "total length: " << bspline_curve->total_length() << std::endl;
+
+    //if(path.size()>0){
+    //  new_path_bspline.push_back(path[0]);
+    //  for (int i = 0; i < bspline_curve->node_count(); ++i) {
+	//    Eigen::VectorXf pose(3);
+    //    auto node = bspline_curve->node(i);
+    //    pose<< node.x, node.y, node.z; 
+    //    new_path_bspline.push_back(pose);
+	//    }
+    //}
+        
+     
+  
     // std::string path_ingg = path_ + std::to_string(save_data_index) + "_rrt_path_modified.npy";
-    // rrtstart3d.save_path(new_path_bspline, path_ingg);
+    // rrtstart3d.save_path(path, path_ingg);
 
     
     // save_data_index++;
