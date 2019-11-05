@@ -611,6 +611,9 @@ int main()
     Eigen::VectorXf x_dimentions(3);
     std::vector<SearchSpace::Rect> obstacles;
     std::string path_ = "/home/user/ROS/cmake/data";
+    std::ofstream outfile;
+    outfile.open("/home/ubuntu/diksha_data/parameter_analysis/cost.txt", std::ios_base::app);
+
     x_dimentions << 100, 100, 100;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
@@ -703,20 +706,24 @@ int main()
 
     X.use_whole_search_sapce = true;
     X.generate_search_sapce(covmat, rotation_matrix, center, max_samples);
-
+    const clock_t begin_time = clock();
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
-   
+    float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+
     if(path.size()==0){
 	    X.use_whole_search_sapce = false;
 	    X.insert_trajectory(current_desired_trajectory);
+    	    const clock_t begin_time = clock();
 	    path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_goal, 2.0, 3.0, common_utils, 
 	    std::ref(planner_status), save_data_index);
+    	   float time =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
 	    float cost = rrtstart3d.get_distance(path);
-    	    cout << "whole search space false: " << path.size() << "," << cost  << endl;
+    	    //cout << cost  << endl;
+	   outfile << time<< "," << cost  << "\n";
     }
     else{
 	 float cost = rrtstart3d.get_distance(path);
-         cout << "whole search space true: " << path.size() << "," << cost  << endl;
+	  outfile << time_diff<< "," << cost  << "\n";
     }
    
 
