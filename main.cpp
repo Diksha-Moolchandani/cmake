@@ -701,7 +701,8 @@ int main()
     }
 
 
-
+    kamaz::hagen::TrajectorySmoother smooth_traj;
+    smooth_traj.set_smoother("bspline");
     Curve* bspline_curve = new BSpline();
 	  bspline_curve->set_steps(100);
     bspline_curve->add_way_point(Vector(path[0][0], path[0][1], path[0][2]));
@@ -722,7 +723,11 @@ int main()
         new_path_bspline.push_back(pose);
 	    }
     }
-    
+        
+   
+    smooth_traj.set_waypoints(new_path_bspline,100);
+    smooth_traj.get_smoothed_trajectory();
+
     // std::string path_ingg = path_ + std::to_string(save_data_index) + "_rrt_path_modified.npy";
     // rrtstart3d.save_path(new_path_bspline, path_ingg);
 
