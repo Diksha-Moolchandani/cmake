@@ -553,88 +553,15 @@ using kamaz::hagen::PointCloudPtr;
 //   return 0;
 // }
 
-typedef Eigen::Spline<float, 3> Spline3d;
+
 
 
 int main(){
-  // std::vector<Eigen::VectorXf> waypoints;
-  // Eigen::Vector3f po1(2,3,4);
-  // Eigen::Vector3f po2(2,5,4);
-  // Eigen::Vector3f po3(2,8,9);
-  // Eigen::Vector3f po4(2,8,23);
-  // waypoints.push_back(po1);
-  // waypoints.push_back(po2);
-  // waypoints.push_back(po3);
-  // waypoints.push_back(po4);
-      
-  // // The degree of the interpolating spline needs to be one less than the number of points
-  // // that are fitted to the spline.
-  // Eigen::MatrixXf points(3, waypoints.size());
-  // int row_index = 0;
-  // for(auto const way_point : waypoints){
-  //     points.col(row_index) << way_point[0], way_point[1], way_point[2];
-  //     row_index++;
-  // }
-  // Spline3d spline = Eigen::SplineFitting<Spline3d>::Interpolate(points, 2);
-  // float time_ = 0;
-  // for(int i=0; i<20; i++){
-  //     time_ += 1.0/(20*1.0);
-  //     Eigen::VectorXf values = spline(time_);
-  //     std::cout<< values << std::endl;
-  // }
-  // std::cout << "Nodes: " << 20 << std::endl;
-// std::cout << "Total length: " << smoothed_trajectory.size() << std::endl;
-
-  // time_ = 0;
-  // int count = 0;
-  // std::vector<float> edges; 
-  // for(int g=0; g< 20; g++){
-  //   time_ += 1.0/(20*1.0);
-  //   Eigen::Vector3f values = spline(time_);
-  //   std::cout<< values << std::endl;
-  //   edges.push_back(values[0]);
-  //   edges.push_back(values[1]);
-  //   edges.push_back(values[2]);
-  //   // edges.push_back(values[3]);
-  //   count += 1;
-  // }
-  // cnpy::npy_save("file_name.npy", &edges[0],{(unsigned int)1, (unsigned int)count, (unsigned int)3},"w");
-
-  // void TrajectorySmoother::get_smoothed_trajectory(std::vector<Eigen::VectorXf> waypoints
-  //                                           , int _number_of_steps
-  //                                           , std::vector<Eigen::VectorXf>& smoothed_trajectory){
-                
-  //               if(waypoints.size()<2){
-  //                   smoothed_trajectory = waypoints;
-  //                   return;
-  //               }
-  //               Eigen::MatrixXf points(3, waypoints.size());
-  //               // points.col(0) << waypoints[0][0], waypoints[0][1], waypoints[0][2];
-
-  //               int row_index = 0;
-  //               for(auto const way_point : waypoints){
-  //                   points.col(row_index) << way_point[0], way_point[1], way_point[2];
-  //                   std::cout<< "inpuse :-->" << way_point << std::endl;
-  //                   row_index++;
-  //               }
-  //               // points.col(row_index) << waypoints.back()[0], waypoints.back()[1], waypoints.back()[2];
-
-  //               Spline3d spline = Eigen::SplineFitting<Spline3d>::Interpolate(points, 2);
-
-  //               // _curve->add_way_point(Vector(waypoints.back()[0], waypoints.back()[1], waypoints.back()[2]));
-  //               float time_ = 0;
-  //               for(int i=0; i<_number_of_steps; i++){
-  //                   time_ += 1.0/(_number_of_steps*1.0);
-  //                   Eigen::VectorXf values = spline(time_);
-  //                   std::cout<< values << std::endl;
-  //                   smoothed_trajectory.push_back(values);
-  //               }
-  //               std::cout << "Nodes: " << _number_of_steps << std::endl;
-	//             std::cout << "Total length: " << smoothed_trajectory.size() << std::endl;
-  //           }
-
+ 
+    std::ofstream outfile;
+    outfile.open("/home/ubuntu/diksha_data/parameter_analysis/gnd_time.txt", std::ios_base::app);
   
-  std::string filename ="/tmp/fff_946685000909756.pcd"; 
+  std::string filename ="/home/ubuntu/log946685022902685.pcd"; 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
   if(pcl::io::loadPCDFile<pcl::PointXYZ> (filename, *cloud1) == -1) // load point cloud file
   {
@@ -642,7 +569,7 @@ int main(){
       return 0;
   }
   std::cout<<"Loaded"<<cloud1->width * cloud1->height
-            <<"data points from /tmp/fff_946685000909756.pcd with the following fields: "
+            <<"data points from /home/ubuntu/log946685022902685.pcd with the following fields: "
             <<std::endl;
 
   pcl::PointCloud<pcl::PointXYZ> pc = *cloud1;
@@ -676,7 +603,10 @@ int main(){
     depth_ground_remover->options.window_size = 7;
     depth_ground_remover->options.kernel_size = 7;
     // depth_ground_remover->options.depth_expiration_time = 1.0;
+        const clock_t begin_time = clock();
     depth_ground_remover->execute<kamaz::hagen::Cloud::Ptr>(cloud_ptr_current_ptr, 0);
+    float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+    outfile << time_diff<< "\n";
 
 
   // //   pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_1.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
