@@ -618,7 +618,7 @@ int main()
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
     float obstacle_width = 0.5;
-    auto obstacles = rrtstart3d.get_random_obstacles(30, x_dimentions, obstacle_width );
+    auto obstacles = rrtstart3d.get_random_obstacles(1000, x_dimentions, obstacle_width );
     // std::cout<< "-----1" << std::endl;
     Eigen::VectorXf x_init(3);
     x_init << 0, 0, 0 ;
