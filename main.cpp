@@ -617,7 +617,8 @@ int main()
     x_dimentions << 100, 100, 100;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
-    auto obstacles = rrtstart3d.get_random_obstacles(30, x_dimentions);
+    float obstacle_width = 0.5;
+    auto obstacles = rrtstart3d.get_random_obstacles(30, x_dimentions, obstacle_width );
     // std::cout<< "-----1" << std::endl;
     Eigen::VectorXf x_init(3);
     x_init << 0, 0, 0 ;
@@ -635,7 +636,7 @@ int main()
     int max_samples = 10000;
     int rewrite_count = 32;
     float proc = 0.1;
-    float obstacle_width = 0.5;
+
     kamaz::hagen::SearchSpace X;
     rrtstart3d.save_obstacle(obstacles, "/home/ubuntu/oct_map.npy");
     X.init_search_space(map_dim, max_samples, obstacle_width, 0.0, 200, 0.1);

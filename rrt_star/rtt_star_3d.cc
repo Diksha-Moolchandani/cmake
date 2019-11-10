@@ -85,7 +85,7 @@ namespace hagen {
         return _objects;
     }
 
-    std::vector<SearchSpace::Rect> RRTStar3D::get_random_obstacles(int number_of_obstacles, Eigen::VectorXf x_dimentions){
+    std::vector<SearchSpace::Rect> RRTStar3D::get_random_obstacles(int number_of_obstacles, Eigen::VectorXf x_dimentions, float obstacle_width){
         std::vector<SearchSpace::Rect> _objects;
         srand(time(NULL));
         for(int i=0; i< number_of_obstacles; i++){
@@ -93,9 +93,9 @@ namespace hagen {
             float x = (rand()%(int)x_dimentions[0]);
             float y = (rand()%(int)x_dimentions[1]);
             float z = (rand()%(int)x_dimentions[2]);
-            int width_x = x + rand()%10;
-            int width_y = y + rand()%10;
-            int width_z = z + rand()%10;
+            int width_x = x + obstacle_width;
+            int width_y = y + obstacle_width;
+            int width_z = z + obstacle_width;
             if(width_x >= (int)x_dimentions[0] 
             || width_y >= (int)x_dimentions[1] || width_z >= (int)x_dimentions[2]){
                 continue;

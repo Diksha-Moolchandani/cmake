@@ -47,7 +47,7 @@ namespace hagen {
                     
                Eigen::VectorXf get_search_space_dim(Eigen::VectorXf dim);
                std::vector<SearchSpace::Rect> get_obstacles();
-               std::vector<SearchSpace::Rect> get_random_obstacles(int number_of_obstacles, Eigen::VectorXf x_dimentions);
+               std::vector<SearchSpace::Rect> get_random_obstacles(int number_of_obstacles, Eigen::VectorXf x_dimentions, float obstacle_width);
                void save_edges(std::map<int, Tree> trees, std::string file_name);
                void save_obstacle(std::vector<SearchSpace::Rect> obstacles, std::string file_name);
                void save_poses(Eigen::VectorXf start, Eigen::VectorXf end, std::string file_name);
