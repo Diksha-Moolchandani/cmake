@@ -558,8 +558,8 @@ using namespace std;
 
 int main(int argc, char** argv){
  
-//    std::ofstream outfile;
-//    outfile.open("/home/ubuntu/diksha_data/parameter_analysis/gnd_time.txt", std::ios_base::app);
+    std::ofstream outfile;
+    outfile.open("/home/ubuntu/diksha_data/parameter_analysis/gnd_time.txt", std::ios_base::app);
   
   std::string filename ="/home/ubuntu/log946685022902685.pcd"; 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
@@ -597,8 +597,8 @@ int main(int argc, char** argv){
     }
     BOOST_LOG_TRIVIAL(info) << FCYN("Number of points in the cloud") << cloud_ptr_current_ptr->point_cloud_ptr->points.size();
     depth_ground_remover->options.bin_size = 7;
-    depth_ground_remover->options.ground_remove_angle = atof(argv[1]);
-    depth_ground_remover->options.step = 5;
+    depth_ground_remover->options.ground_remove_angle = 10;
+    depth_ground_remover->options.step = atof(argv[1]);
     depth_ground_remover->options.depth_threshold = 1.0f;
     depth_ground_remover->options.window_size = 7;
     depth_ground_remover->options.kernel_size = 7;
@@ -606,8 +606,8 @@ int main(int argc, char** argv){
         const clock_t begin_time = clock();
     depth_ground_remover->execute<kamaz::hagen::Cloud::Ptr>(cloud_ptr_current_ptr, 0);
     float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
-//    outfile << time_diff<< "\n";
-    cout << time_diff<< endl;
+    outfile << time_diff<< "\n";
+//    cout << time_diff<< endl;
 
   // //   pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_1.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
   // //   pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_2.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
