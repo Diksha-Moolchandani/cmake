@@ -604,7 +604,7 @@ using kamaz::hagen::SingularSpectrumAnalysis;
 using namespace std;
 
 
-int main()
+int main(int argc, char** argv)
 {
     kamaz::hagen::RRTStar3D rrtstart3d;
     kamaz::hagen::CommonUtils common_utils;
@@ -632,7 +632,7 @@ int main()
     Q.push_back(dim_in);
     // std::cout<< "-----1" << std::endl;
     int r = 1;
-    int max_samples = 1000;
+    int max_samples = atoi(argv[1]);
     int rewrite_count = 32;
     float proc = 0.1;
     float obstacle_width = 0.5;
