@@ -614,11 +614,11 @@ int main()
         outfile.open("/home/ubuntu/diksha_data/parameter_analysis/octmap_time.txt", std::ios_base::app);
 
     std::string path_ = "/home/user/ROS/cmake/data";
-    x_dimentions << 100, 100, 100;
+    x_dimentions << 50, 50, 50;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
     float obstacle_width = 0.5;
-    auto obstacles = rrtstart3d.get_random_obstacles(30, x_dimentions, obstacle_width);
+    auto obstacles = rrtstart3d.get_random_obstacles(1000, x_dimentions, obstacle_width);
     // std::cout<< "-----1" << std::endl;
     Eigen::VectorXf x_init(3);
     x_init << 0, 0, 0 ;
