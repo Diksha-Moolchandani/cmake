@@ -558,10 +558,10 @@ using namespace std;
 
 int main(int argc, char** argv){
  
-    std::ofstream outfile;
-    outfile.open("/home/ubuntu/diksha_data/parameter_analysis/gnd_time.txt", std::ios_base::app);
+//    std::ofstream outfile;
+//    outfile.open("/home/ubuntu/diksha_data/parameter_analysis/gnd_time.txt", std::ios_base::app);
   
-  std::string filename ="/home/ubuntu/log946685022902685.pcd"; 
+  std::string filename ="/home/ubuntu/diksha_data/point_cloud/dikshaa_946685127808693.pcd"; 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1(new pcl::PointCloud<pcl::PointXYZ>);
   if(pcl::io::loadPCDFile<pcl::PointXYZ> (filename, *cloud1) == -1) // load point cloud file
   {
@@ -569,7 +569,7 @@ int main(int argc, char** argv){
       return 0;
   }
   std::cout<<"Loaded"<<cloud1->width * cloud1->height
-            <<"data points from /home/ubuntu/log946685022902685.pcd with the following fields: "
+            <<"data points from /home/ubuntu/diksha_data/point_cloud/dikshaa_946685127808693.pcd with the following fields: "
             <<std::endl;
 
   pcl::PointCloud<pcl::PointXYZ> pc = *cloud1;
@@ -603,10 +603,29 @@ int main(int argc, char** argv){
     depth_ground_remover->options.window_size = 7;
     depth_ground_remover->options.kernel_size = 7;
     // depth_ground_remover->options.depth_expiration_time = 1.0;
-        const clock_t begin_time = clock();
+    const clock_t begin_time1 = clock();
     depth_ground_remover->execute<kamaz::hagen::Cloud::Ptr>(cloud_ptr_current_ptr, 0);
-    float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
-    outfile << time_diff<< "\n";
+    float time_diff1 =  float( clock () - begin_time1 ) /  CLOCKS_PER_SEC;
+//    outfile << time_diff<< "\n";
+
+ 
+    
+   kamaz::hagen::Cloud::Ptr cloud_ptr_current;
+   cloud_ptr_current.reset(new kamaz::hagen::Cloud());
+   cloud_ptr_current->point_cloud_ground_plane.reset(new pcl::PointCloud<PCLPoint>());
+   cloud_ptr_current->point_cloud_non_ground_plane.reset(new pcl::PointCloud<PCLPoint>());
+   cloud_ptr_current->point_cloud_ptr.reset(new pcl::PointCloud<PCLPoint>());
+  
+     const clock_t begin_time2 = clock();
+    *(cloud_ptr_current->point_cloud_ground_plane) += *(cloud_ptr_current_ptr->point_cloud_ptr);
+    *(cloud_ptr_current->point_cloud_non_ground_plane) += *(cloud_ptr_current_ptr->point_cloud_ptr);
+    *(cloud_ptr_current->point_cloud_ptr) += *(cloud_ptr_current_ptr->point_cloud_ptr);
+    float time_diff2 =  float( clock () - begin_time2 ) /  CLOCKS_PER_SEC;
+    float time_diff = time_diff1 + time_diff2;
+    cout << time_diff << endl;
+    cout << time_diff1 << endl;
+    cout << time_diff2 << endl;
+
 //    cout << time_diff<< endl;
 
   // //   pcl::io::savePCDFileASCII ("/tmp/diksha_cloud_1.pcd", *(cloud_ptr_current_ptr->point_cloud_ptr));
