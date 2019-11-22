@@ -804,7 +804,7 @@ int main()
     float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
     double cost = rrtstart3d.get_distance(path);
     outfile << time_diff<< "," << cost  << "\n";
-      rrtstart3d.save_path(path, "/home/ubuntu/rrt_path.npy");
+//      rrtstart3d.save_path(path, "/home/ubuntu/rrt_path.npy");
  /*  if(path.size()>0){
       Curve* bspline_curve = new BSpline();
       bspline_curve->set_steps(100);
