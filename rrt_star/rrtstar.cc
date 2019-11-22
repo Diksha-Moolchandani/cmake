@@ -71,7 +71,9 @@ namespace hagen {
         none_pose << -1, -1, -1;
         add_edge(0, x_init, none_pose);
         std::vector<Eigen::VectorXf> path;
+
         while(true){
+
             for(auto const q : Q){
                 for(int i=0; i<q[1]; i++){
                    if(!till_auto_mode){
@@ -98,6 +100,7 @@ namespace hagen {
                 }
             }
         }
+
     }    
 } 
 }

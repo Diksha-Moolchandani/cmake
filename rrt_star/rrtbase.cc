@@ -273,8 +273,8 @@ namespace hagen {
         path.push_back(x_goal);
         auto current = x_goal;
         
-        // std::cout<< "RRTBase::reconstruct_path: current"<< current.transpose() << std::endl;
-        // std::cout<< "RRTBase::reconstruct_path: current"<< current.transpose() << std::endl;
+         std::cout<< "RRTBase::reconstruct_path: current"<< current.transpose() << std::endl;
+         std::cout<< "RRTBase::reconstruct_path: current"<< current.transpose() << std::endl;
         if(is_equal_vectors(x_goal, x_init)){
             return path;
         }

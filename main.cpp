@@ -710,7 +710,7 @@ int main(int argc, char** argv)
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
     float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
 
-    if(path.size()==0){
+  /*  if(path.size()==0){
 	    X.use_whole_search_sapce = false;
 	    X.insert_trajectory(current_desired_trajectory);
     	    const clock_t begin_time = clock();
@@ -721,10 +721,10 @@ int main(int argc, char** argv)
     	    //cout << cost  << endl;
 	   outfile << time<< "," << cost  << "\n";
     }
-    else{
+    else{*/
 	 float cost = rrtstart3d.get_distance(path);
 	  outfile << time_diff<< "," << cost  << "\n";
-    }
+ //   }
    
 
 
