@@ -727,6 +727,9 @@ typedef Eigen::Spline<double, 3> Spline3d;
 
 int main()
 {
+	std::ofstream outfile;
+        outfile.open("/home/ubuntu/diksha_data/parameter_analysis/octmap_time.txt", std::ios_base::app);
+
     kamaz::hagen::RRTStar3D rrtstart3d;
     kamaz::hagen::CommonUtils common_utils;
     Eigen::VectorXd x_dimentions(6);
@@ -752,9 +755,16 @@ int main()
     double proc = 0.1;
     double obstacle_width = 0.5;
     kamaz::hagen::SearchSpace X;
+     rrtstart3d.save_obstacle(obstacles, "/home/ubuntu/oct_map.npy");
     X.init_search_space(x_dimentions, max_samples, obstacle_width, 0.0, 200, 0.1);
+    const clock_t begin_time = clock();
+
     X.update_obstacles_map(obstacles);
-    int save_data_index = 0;
+    float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+    outfile <<  time_diff  << "\n";
+
+
+ /*   int save_data_index = 0;
     rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
     std::vector<SearchSpace::Rect> current_desired_trajectory;
     std::vector<Eigen::Vector3d> trajectory_online;
@@ -797,9 +807,9 @@ int main()
         pose.state << node.x, node.y, node.z, 0, 0, 0; 
         new_path_bspline.push_back(pose);
       }
-      std::string path_ingg = "/dataset/rrt_old/" + std::to_string(save_data_index) + "_rrt_path_modified.npy";
+      std::string path_ingg = "/home/ubuntu/diksha_data/log/" + std::to_string(save_data_index) + "_rrt_path_modified.npy";
       rrtstart3d.save_path(new_path_bspline, path_ingg);
-    }
+    }*/
   return 0;
 }
 // // // Generic functor

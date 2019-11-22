@@ -47,7 +47,7 @@ namespace hagen {
             //  outfile << "rrt,"<<  time_diff <<","<< path.size() << "," << get_distance(path) << "," <<  common_utils.get_cost_of_path(path) << "\n";
         // }
         // std::cout<< " ========================4444444" << std::endl;
-        stotage_location = "/dataset/rrt_old/"+ std::to_string(index) + "_";
+        stotage_location = "/home/ubuntu/diksha_data/log/"+ std::to_string(index) + "_";
         save_edges(rrtstar.trees, stotage_location + "edges.npy");
         save_obstacle(search_space.random_objects, stotage_location + "obstacles.npy");
         save_poses(start_pose, goal_pose, stotage_location + "start_and_end_pose.npy");
