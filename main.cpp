@@ -614,7 +614,7 @@ int main(int argc, char** argv)
     std::ofstream outfile;
     outfile.open("/home/ubuntu/diksha_data/parameter_analysis/cost.txt", std::ios_base::app);
 
-    x_dimentions << 100, 100, 100;
+    x_dimentions << 50, 50, 50;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
   //  auto obstacles = rrtstart3d.get_random_obstacles(1, x_dimentions);
@@ -724,7 +724,7 @@ int main(int argc, char** argv)
     else{*/
 	 float cost = rrtstart3d.get_distance(path);
 	  outfile << time_diff<< "," << cost  << "\n";
- //   }
+//   }
    
 
 
