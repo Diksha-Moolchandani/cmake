@@ -1,3 +1,4 @@
+
 #include "./local_maxima/local_maxima_filter.h"
 // #include "./local_maxima/bilateral_filter.h"
 
@@ -724,10 +725,10 @@ typedef Eigen::Spline<double, 3> Spline3d;
   //   *(cloud_ptr_current->point_cloud_ptr) += *(diksha_cloud_3);
     
 // }
-using namespace std;
+
 int main()
 {
-    std::ofstream outfile;
+     std::ofstream outfile;
     outfile.open("/home/ubuntu/diksha_data/parameter_analysis/cost.txt", std::ios_base::app);
 
     kamaz::hagen::RRTStar3D rrtstart3d;
@@ -801,11 +802,10 @@ int main()
     const clock_t begin_time = clock();
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
     float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
-    float cost = rrtstart3d.get_distance(path);
+    double cost = rrtstart3d.get_distance(path);
     outfile << time_diff<< "," << cost  << "\n";
-
-
- /*   if(path.size()>0){
+      rrtstart3d.save_path(path, "/home/ubuntu/rrt_path.npy");
+ /*  if(path.size()>0){
       Curve* bspline_curve = new BSpline();
       bspline_curve->set_steps(100);
       bspline_curve->add_way_point(Vector(path[0].state[0], path[0].state[1], path[0].state[2]));
@@ -891,6 +891,5 @@ int main()
 // //     std::cin.get();
 // //     return 0;
 // // }
-
 
 
