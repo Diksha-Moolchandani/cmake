@@ -614,7 +614,7 @@ int main(int argc, char** argv)
     std::ofstream outfile;
     outfile.open("/home/ubuntu/diksha_data/parameter_analysis/cost.txt", std::ios_base::app);
 
-    x_dimentions << 50, 50, 50;
+    x_dimentions << 150, 150, 150;
     auto map_dim = rrtstart3d.get_search_space_dim(x_dimentions);
     // auto obstacles = rrtstart3d.get_obstacles();
   //  auto obstacles = rrtstart3d.get_random_obstacles(1, x_dimentions);
@@ -622,7 +622,7 @@ int main(int argc, char** argv)
     Eigen::VectorXf x_init(3);
     x_init << 0, 0, 0 ;
     Eigen::VectorXf x_goal(3);
-    x_goal << 89, 99, 99;
+    x_goal << 39, 49, 49;
 
     std::atomic_bool planner_status;
     planner_status = ATOMIC_VAR_INIT(true);
