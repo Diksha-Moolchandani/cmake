@@ -115,7 +115,8 @@ namespace hagen {
     , Eigen::VectorXd x_dimentions, PathNode x_init, PathNode x_goal){
         std::vector<SearchSpace::Rect> _objects;
         srand(time(NULL));
-        for(int i=0; i< number_of_obstacles; i++){
+        while(_objects.size() < number_of_obstacles){
+
             
             double x_plus = static_cast <double> (rand()) / static_cast <double> (RAND_MAX) *x_dimentions[1];
             double y_plus = static_cast <double> (rand()) / static_cast <double> (RAND_MAX) *x_dimentions[3];

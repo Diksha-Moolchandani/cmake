@@ -1,21 +1,4 @@
-Skip to content
-Search or jump to…
 
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@Diksha-Moolchandani 
-0
-01Diksha-Moolchandani/cmake
-forked from GPrathap/cmake
- Code Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
-cmake/main.cpp
-@Diksha-Moolchandani Diksha-Moolchandani new_oct
-e56e133 1 hour ago
-@GPrathap@Diksha-Moolchandani
-876 lines (715 sloc)  31.6 KB
  
 #include "./local_maxima/local_maxima_filter.h"
 // #include "./local_maxima/bilateral_filter.h"
@@ -744,7 +727,7 @@ typedef Eigen::Spline<double, 3> Spline3d;
     
 // }
 
-int main()
+int main(int argc, char** argv)
 {
 	std::ofstream outfile;
         outfile.open("/home/ubuntu/diksha_data/parameter_analysis/octmap_time.txt", std::ios_base::app);
@@ -752,11 +735,15 @@ int main()
     kamaz::hagen::RRTStar3D rrtstart3d;
     kamaz::hagen::CommonUtils common_utils;
     Eigen::VectorXd x_dimentions(6);
-    x_dimentions << -10, 10, -10, 10, -10, 10;
+    double dim = atof(argv[1]);
+
+    x_dimentions << -dim, dim, -dim, dim, -dim, dim;
     kamaz::hagen::PathNode x_init;
-    x_init.state << -9, -9, -9, 0 , 0 ,0;
+    x_init.state << -dim+1, -dim+1, -dim+1, 0 , 0 ,0;
     kamaz::hagen::PathNode x_goal;
-    x_goal.state << 9, 9, 9, 0 ,0 , 0;
+ //   std::vector<SearchSpace::Rect> obstacles;
+
+    x_goal.state << dim-1, dim-1, dim-1, 0 ,0 , 0;
     // auto obstacles = rrtstart3d.get_obstacles();
     auto obstacles = rrtstart3d.get_random_obstacles(100, x_dimentions, x_init, x_goal);
     // std::cout<< "-----1" << std::endl;
@@ -774,7 +761,7 @@ int main()
     double proc = 0.1;
     double obstacle_width = 0.5;
     kamaz::hagen::SearchSpace X;
-     rrtstart3d.save_obstacle(obstacles, "/home/ubuntu/oct_map.npy");
+ //    rrtstart3d.save_obstacle(obstacles, "/home/ubuntu/oct_map.npy");
     X.init_search_space(x_dimentions, max_samples, obstacle_width, 0.0, 200, 0.1);
     const clock_t begin_time = clock();
 
@@ -889,18 +876,4 @@ int main()
 // //     return 0;
 // // }
 
-
-
-© 2019 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
 
