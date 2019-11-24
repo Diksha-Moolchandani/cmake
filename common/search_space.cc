@@ -380,7 +380,7 @@ namespace hagen {
         }
     }
 
-    bool SearchSpace::collision_free(Eigen::Vector3d start, Eigen::Vector3d end, int r){
+    bool SearchSpace::collision_free(Eigen::Vector3d start, Eigen::Vector3d end, float r){
         auto dist = (start - end).norm();
         double resolution = std::ceil(dist/r);
         std::vector<double> res_on_x = linspace(start[0], end[0], resolution);
@@ -393,14 +393,18 @@ namespace hagen {
                 return s1 < s2;
         });
         std::cout<< "SearchSpace::collision_free:: len: " << len << std::endl;
-        for(int i=0; i<len; i++){
-            Eigen::Vector3d search_rect(3);
-            search_rect<< res_on_x[i], res_on_y[i], res_on_z[i];
-            // std::cout<<" collision_free  " << search_rect.transpose() << std::endl;
-            if(!obstacle_free(search_rect)){
-                return false;
-            }
-        }
+	if(len !=0){
+		for(int i=0; i<len; i++){
+		    Eigen::Vector3d search_rect(3);
+		    search_rect<< res_on_x[i], res_on_y[i], res_on_z[i];
+		    // std::cout<<" collision_free  " << search_rect.transpose() << std::endl;
+		    if(!obstacle_free(search_rect)){
+		        return false;
+		    }
+		}
+       }
+       else
+		return false;
         return true;
     }
 

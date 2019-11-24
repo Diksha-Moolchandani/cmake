@@ -725,8 +725,8 @@ typedef Eigen::Spline<double, 3> Spline3d;
   //   *(cloud_ptr_current->point_cloud_ptr) += *(diksha_cloud_3);
     
 // }
-
-int main()
+using namespace std;
+int main(int argc, char** argv)
 {
      std::ofstream outfile;
     outfile.open("/home/ubuntu/diksha_data/parameter_analysis/cost.txt", std::ios_base::app);
@@ -734,15 +734,16 @@ int main()
     kamaz::hagen::RRTStar3D rrtstart3d;
     kamaz::hagen::CommonUtils common_utils;
     Eigen::VectorXd x_dimentions(6);
-    x_dimentions << -10, 10, -10, 10, -10, 10;
+    double dim = 10;
+    x_dimentions << -dim, dim, -dim, dim, -dim, dim;
     kamaz::hagen::PathNode x_init;
-    x_init.state << -9, -9, -9, 0 , 0 ,0;
+    x_init.state << -dim+1, -dim+1, -dim+1, 0 , 0 ,0;
     kamaz::hagen::PathNode x_goal;
-    std::vector<SearchSpace::Rect> obstacles;
+ //   std::vector<SearchSpace::Rect> obstacles;
 
-    x_goal.state << 9, 9, 9, 0 ,0 , 0;
+    x_goal.state << dim-1, dim-1, dim-1, 0 ,0 , 0;
     // auto obstacles = rrtstart3d.get_obstacles();
- //   auto obstacles = rrtstart3d.get_random_obstacles(100, x_dimentions, x_init, x_goal);
+    auto obstacles = rrtstart3d.get_random_obstacles(atoi(argv[1]), x_dimentions, x_init, x_goal);
     // std::cout<< "-----1" << std::endl;
     
     std::atomic_bool planner_status;
@@ -752,15 +753,15 @@ int main()
     dim_in << 8, 4;
     Q.push_back(dim_in);
     // std::cout<< "-----1" << std::endl;
-    int r = 1;
-    int max_samples = 1000;
+    float r = 1;
+    int max_samples =1000;
     int rewrite_count = 32;
     double proc = 0.1;
     double obstacle_width = 0.5;
     kamaz::hagen::SearchSpace X;
 
     X.init_search_space(x_dimentions, max_samples, obstacle_width, 0.0, 200, 0.1);
-    cnpy::NpyArray arr = cnpy::npy_load("/home/ubuntu/oct_map.npy");
+/*    cnpy::NpyArray arr = cnpy::npy_load("/home/ubuntu/oct_map.npy");
     double* loaded_data = arr.data<double>();
 
     for(int i = 0; i < arr.shape[0]*arr.shape[1]*arr.shape[2];i=i+6)
@@ -776,14 +777,22 @@ int main()
 	tmp_rect.max[1] = loaded_data[i+4];
 	tmp_rect.max[2] = loaded_data[i+5];
 
-	obstacles.push_back(tmp_rect);
+        if(abs(tmp_rect.min[0])<dim && abs(tmp_rect.min[1])<dim && abs(tmp_rect.min[2])<dim && abs(tmp_rect.max[0])<dim && abs(tmp_rect.max[1])<dim && abs(tmp_rect.max[1])<dim ){
+		obstacles.push_back(tmp_rect);
+	}
+    }*/
 
-    }
     X.update_obstacles_map(obstacles);
     int save_data_index = 0;
     rrtstart3d.rrt_init(Q, max_samples, r, proc, rewrite_count);
     std::vector<SearchSpace::Rect> current_desired_trajectory;
-    std::vector<Eigen::Vector3d> trajectory_online;
+    std::vector<kamaz::hagen::PathNode> trajectory_online;
+    kamaz::hagen::PathNode pose;
+    trajectory_online.push_back(x_init);
+    pose.state << 0, 0, 0, 0 ,0 , 0;
+    trajectory_online.push_back(pose);
+    trajectory_online.push_back(x_goal);
+
 
     Eigen::Vector3d center = (x_goal.state.head(3) - x_init.state.head(3));
     Eigen::MatrixXd covmat = Eigen::MatrixXd::Zero(3,3);
@@ -803,7 +812,10 @@ int main()
     auto path = rrtstart3d.rrt_planner_and_save(X, x_init, x_goal, x_init, 0.5, 0.5, common_utils, std::ref(planner_status), save_data_index);
     float time_diff =  float( clock () - begin_time ) /  CLOCKS_PER_SEC;
     double cost = rrtstart3d.get_distance(path);
-    outfile << time_diff<< "," << cost  << "\n";
+    double accuracy = -rrtstart3d.get_accuracy_of_path(path) + rrtstart3d.get_accuracy_of_path(trajectory_online) ;
+    outfile << time_diff<< "," << cost <<"," << accuracy <<"," << obstacles.size() << "," << path.size() << "\n";
+ 
+//   cout << "size of obstacles is: --- " << obstacles.size() << endl;
 //      rrtstart3d.save_path(path, "/home/ubuntu/rrt_path.npy");
  /*  if(path.size()>0){
       Curve* bspline_curve = new BSpline();
@@ -821,14 +833,20 @@ int main()
       if(path.size()>0){
         new_path_bspline.push_back(path[0]);
       }
+    const clock_t begin_time1 = clock();
       for (int i = 0; i < bspline_curve->node_count(); ++i) {
         kamaz::hagen::PathNode pose;
         auto node = bspline_curve->node(i);
         pose.state << node.x, node.y, node.z, 0, 0, 0; 
         new_path_bspline.push_back(pose);
       }
-      std::string path_ingg = "/home/ubuntu/diksha_data/log/" + std::to_string(save_data_index) + "_rrt_path_modified.npy";
-      rrtstart3d.save_path(new_path_bspline, path_ingg);
+	float time_diff2 =  float( clock () - begin_time1 ) /  CLOCKS_PER_SEC;
+        float time_diff = time_diff1 + time_diff2;
+        double smooth_cost = rrtstart3d.get_distance(new_path_bspline);
+        double smooth_accuracy = rrtstart3d.get_accuracy_of_path(path) - rrtstart3d.get_accuracy_of_path(new_path_bspline) ;
+        outfile << time_diff<< "," << cost <<"," << accuracy <<"," << obstacles.size() << "," << path.size() << "," << smooth_cost << "," << smooth_accuracy<< "\n";
+//      std::string path_ingg = "/home/ubuntu/diksha_data/log/" + std::to_string(save_data_index) + "_rrt_path_modified.npy";
+//      rrtstart3d.save_path(new_path_bspline, path_ingg);
     }*/
   return 0;
 }
@@ -891,5 +909,6 @@ int main()
 // //     std::cin.get();
 // //     return 0;
 // // }
+
 
 

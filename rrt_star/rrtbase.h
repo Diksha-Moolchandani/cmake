@@ -27,7 +27,7 @@ namespace hagen {
             int sample_taken;
             int max_samples;
             std::vector<Eigen::Vector2d> lengths_of_edges;
-            int resolution;
+            float resolution;
             double pro;
             double voxel_side_length;
             Eigen::Vector3d init_min_point;
@@ -67,7 +67,7 @@ namespace hagen {
                 int sample_taken;
                 int max_samples;
                 std::vector<Eigen::Vector2d> Q;
-                int r;
+                float r;
                 double prc;
                 double voxel_side_length;
                 Eigen::Vector3d init_min_point;

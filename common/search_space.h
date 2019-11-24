@@ -88,7 +88,7 @@ namespace hagen {
                 Eigen::Vector3d sample_free();
                 Eigen::Vector3d sample();
                 std::vector<double> linspace(double start_in, double end_in, double step_size);
-                bool collision_free(Eigen::Vector3d start, Eigen::Vector3d end, int r);
+                bool collision_free(Eigen::Vector3d start, Eigen::Vector3d end, float r);
                 void insert_obstacle(Eigen::Vector3d index);
                 std::vector<Eigen::Vector3d> nearest_obstacles(Eigen::Vector3d x
                                     , int max_neighbours);

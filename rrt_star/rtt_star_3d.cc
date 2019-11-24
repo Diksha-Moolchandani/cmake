@@ -72,6 +72,26 @@ namespace hagen {
         return distance;
     }
 
+
+  double RRTStar3D::get_accuracy_of_path(std::vector<PathNode> path1){
+
+        int size_of_path = path1.size();
+        Eigen::VectorXd path1_dis(size_of_path);
+        for(int i=0; i< path1.size(); i++){
+            path1_dis[i] = path1[i].state.head(3).norm();
+        }
+        Eigen::MatrixXd smoothed_map  = Eigen::MatrixXd::Zero(size_of_path, size_of_path);
+        for(int i=0; i<size_of_path-1; i++){
+        smoothed_map(i,i) = 2;
+        smoothed_map(i,i+1) = smoothed_map(i+1,i) = -1;
+        }
+        smoothed_map(size_of_path-1, size_of_path-1) = 2;
+        return path1_dis.transpose()*smoothed_map*path1_dis;
+    }
+
+
+
+
     void RRTStar3D::save_trajectory(std::vector<PathNode> trajectory_of_drone){
        std::string file_name = stotage_location + "smoothed_rrt_path.npy";
        std::vector<double> quad_status; 
@@ -85,7 +105,7 @@ namespace hagen {
     }
 
     void RRTStar3D::rrt_init(std::vector<Eigen::Vector2d> _lengths_of_edges
-            , int max_samples, int _resolution, double _pro, int rewrite_count){
+            , int max_samples, float _resolution, double _pro, int rewrite_count){
         rrt_planner_options.lengths_of_edges = _lengths_of_edges;
         rrt_planner_options.max_samples = max_samples;
         rrt_planner_options.resolution = _resolution; 
@@ -115,7 +135,8 @@ namespace hagen {
     , Eigen::VectorXd x_dimentions, PathNode x_init, PathNode x_goal){
         std::vector<SearchSpace::Rect> _objects;
         srand(time(NULL));
-        for(int i=0; i< number_of_obstacles; i++){
+
+        while(_objects.size() < number_of_obstacles){
             
             double x_plus = static_cast <double> (rand()) / static_cast <double> (RAND_MAX) *x_dimentions[1];
             double y_plus = static_cast <double> (rand()) / static_cast <double> (RAND_MAX) *x_dimentions[3];
@@ -201,3 +222,4 @@ namespace hagen {
     }
 }
 }
+

@@ -45,7 +45,7 @@ namespace hagen {
                 , std::atomic_bool &is_allowed_to_run, int index);
 
                void rrt_init(std::vector<Eigen::Vector2d> _lengths_of_edges
-                    , int max_samples, int _resolution, double _pro
+                    , int max_samples, float _resolution, double _pro
                     , int rewrite_count);
                     
                Eigen::Vector3d get_search_space_dim(Eigen::Vector3d dim);
@@ -58,12 +58,12 @@ namespace hagen {
                void save_path(std::vector<PathNode> path, std::string file_name);
                void save_trajectory(std::vector<PathNode> trajectory_of_drone);
                double get_distance(std::vector<PathNode> trajectory_);
-
+               double get_accuracy_of_path(std::vector<PathNode> path1);
 
             private:
                std::vector<Eigen::Vector2d> lengths_of_edges;
                int _max_samples;
-               int resolution; 
+               float resolution; 
                double pro;
                int _rewrite_count;
                RRTPlannerOptions rrt_planner_options;
